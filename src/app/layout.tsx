@@ -1,4 +1,4 @@
-import Provider from "@/trpc/provider";
+import ClientSidedProviders from "@/components/ClientSidedProviders";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Provider>{children}</Provider>
+        <ClientSidedProviders>{children}</ClientSidedProviders>
       </body>
     </html>
   );
