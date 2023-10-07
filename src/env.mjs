@@ -5,12 +5,14 @@ export const env = createEnv({
     server: {
         DATABASE_URI: z.string().url(),
         GITHUB_CLIENT_ID: z.string(),
-        GITHUB_CLIENT_SECRET: z.string()
+        GITHUB_CLIENT_SECRET: z.string(),
+        BASE_URL: z.string().url()
     },
     client: {},
     runtimeEnv: {
         DATABASE_URI: process.env.DATABASE_URI,
         GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
-        GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET
+        GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
+        BASE_URL: process.env.BASE_URL
     }
 })
