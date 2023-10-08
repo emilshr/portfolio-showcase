@@ -1,7 +1,5 @@
-import { useSession } from "next-auth/react";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 export default function Dashboard() {
-  // const { status } = useSession();
-  // console.log("Dash status", { status });
-  return <>Dashboard page</>;
+  return <ThemeSwitcher />;
 }
