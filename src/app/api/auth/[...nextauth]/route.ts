@@ -3,8 +3,9 @@ import GithubProvider from "next-auth/providers/github";
 import { env } from "@/env.mjs";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/db";
+import { AuthOptions } from "next-auth";
 
-const handler = NextAuth({
+export const nextAuthOptions: AuthOptions = {
   adapter: DrizzleAdapter(db),
   providers: [
     GithubProvider({
@@ -12,6 +13,11 @@ const handler = NextAuth({
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
   ],
-});
+  pages: {
+    signIn: "/login",
+  },
+};
+
+const handler = NextAuth(nextAuthOptions);
 
 export { handler as GET, handler as POST };
