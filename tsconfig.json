@@ -15,6 +15,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+<<<<<<< HEAD
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
@@ -31,5 +32,17 @@
     "**/*.mjs",
     ".next/types/**/*.ts"
   ],
+=======
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+>>>>>>> aad2d9af196ab59ccc487070d7820c7136358448
   "exclude": ["node_modules"]
 }
