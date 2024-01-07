@@ -6,8 +6,8 @@ import {
 } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 
-import { env } from "@/env.mjs";
-import { db } from "@/server/db";
+import { env } from "@src/env.mjs";
+import { db } from "@src/server/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`

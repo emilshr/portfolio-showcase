@@ -69,3 +69,18 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
 export const sessionsRelations = relations(sessions, ({ one }) => ({
   user: one(users, { fields: [sessions.userId], references: [users.id] }),
 }));
+
+export const portfolios = pgTable("portfolio", {
+  id: text("id").notNull().primaryKey(),
+  userId: text("userId").notNull().unique(),
+  url: text("url").notNull(),
+  upVotes: integer("upvotes").default(0),
+  downVotes: integer("downvotes").default(0),
+});
+
+export const portfolioRelations = relations(portfolios, ({ one }) => ({
+  portfolios: one(users, {
+    fields: [portfolios.userId],
+    references: [users.id],
+  }),
+}));
