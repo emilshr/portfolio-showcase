@@ -1,5 +1,5 @@
 import { createTRPCRouter } from "@src/server/api/trpc";
-import { trendingRouter } from "./routers/trending";
+import { portfolioRouter } from "./routers/portfolio.router";
 
 /**
  * This is the primary router for your server.
@@ -7,7 +7,7 @@ import { trendingRouter } from "./routers/trending";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  trending: trendingRouter,
+  portfolio: portfolioRouter,
 });
 
 // export type definition of API
