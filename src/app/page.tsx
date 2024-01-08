@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { api } from "@src/trpc/server";
 import { HighlightCard } from "@src/components/HighlightCard";
 import { NoEntries } from "@src/components/NoEntries";
