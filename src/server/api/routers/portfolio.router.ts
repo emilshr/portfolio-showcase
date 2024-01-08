@@ -9,6 +9,18 @@ export const portfolioRouter = createTRPCRouter({
     const rows = await db.select().from(portfolios).orderBy(portfolios.upVotes);
     return rows[0];
   }),
+  removePortfolio: protectedProcedure.mutation(
+    async ({
+      ctx: {
+        db,
+        session: {
+          user: { id },
+        },
+      },
+    }) => {
+      return db.delete(portfolios).where(eq(portfolios.userId, id));
+    },
+  ),
   updatePortfolio: protectedProcedure
     .input(z.object({ portfolioUrl: z.string().url() }))
     .mutation(async ({ ctx, input }) => {

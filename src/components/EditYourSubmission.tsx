@@ -19,6 +19,7 @@ import { Input } from "./ui/input";
 import { toast } from "sonner";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
+import { RemovePortfolio } from "./RemovePortfolio";
 
 type Props = {
   item: InferSelectModel<typeof portfolios>;
@@ -26,9 +27,12 @@ type Props = {
 
 export const EditYourSubmission = ({ item }: Props) => {
   return (
-    <section className="flex items-center gap-x-2 font-bold">
+    <section className="flex flex-col items-center gap-y-2 font-bold">
       <span>Nice! You have submitted your portfolio</span>
-      <EditYourSubmissionDialog item={item} />
+      <span className="flex gap-x-2">
+        <EditYourSubmissionDialog item={item} />
+        <RemovePortfolio />
+      </span>
     </section>
   );
 };
