@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Input } from "./ui/input";
+import { type portfolios } from "@src/server/db/schema";
+import { type InferSelectModel } from "drizzle-orm";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { api } from "@src/trpc/react";
 import {
   Dialog,
   DialogClose,
@@ -13,31 +15,46 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { api } from "@src/trpc/react";
+import { Input } from "./ui/input";
 import { toast } from "sonner";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 
-export const AddYourPortfolio = () => {
-  return <AddPortfolioDialog />;
+type Props = {
+  item: InferSelectModel<typeof portfolios>;
 };
 
-const AddPortfolioDialog = () => {
-  const [url, setUrl] = useState("");
+export const EditYourSubmission = ({ item }: Props) => {
+  return (
+    <section className="flex items-center gap-x-2 font-bold">
+      <span>Nice! You have submitted your portfolio</span>
+      <EditYourSubmissionDialog item={item} />
+    </section>
+  );
+};
+
+const EditYourSubmissionDialog = ({ item }: Props) => {
+  const [url, setUrl] = useState(item.url);
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
 
-  const { isLoading, mutate } = api.portfolio.addPortfolio.useMutation({
+  const { isLoading, mutate } = api.portfolio.updatePortfolio.useMutation({
     onSuccess() {
       router.refresh();
     },
   });
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        setOpen(isOpen);
+        setUrl(item.url);
+      }}
+    >
       <DialogTrigger asChild>
-        <Button size="lg">Add yours</Button>
+        <Button size="lg">Update submission</Button>
       </DialogTrigger>
       <DialogContent
         onInteractOutside={(event) => {
@@ -45,10 +62,10 @@ const AddPortfolioDialog = () => {
         }}
       >
         <DialogHeader>
-          <DialogTitle>Add your portfolio url</DialogTitle>
+          <DialogTitle>Update your portfolio</DialogTitle>
           <DialogDescription>
-            Add your portfolio url to make it public and get on the
-            leader-board!
+            If you make any changes to your existing submission, your upvote
+            count will be reset
           </DialogDescription>
         </DialogHeader>
         <div>
@@ -56,7 +73,6 @@ const AddPortfolioDialog = () => {
             value={url}
             className="font-mono"
             onChange={(event) => {
-              event.stopPropagation();
               setUrl(event.target.value);
             }}
             disabled={isLoading}

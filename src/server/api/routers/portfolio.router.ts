@@ -9,6 +9,23 @@ export const portfolioRouter = createTRPCRouter({
     const rows = await db.select().from(portfolios).orderBy(portfolios.upVotes);
     return rows[0];
   }),
+  updatePortfolio: protectedProcedure
+    .input(z.object({ portfolioUrl: z.string().url() }))
+    .mutation(async ({ ctx, input }) => {
+      const {
+        db,
+        session: {
+          user: { id },
+        },
+      } = ctx;
+      const { portfolioUrl } = input;
+      const updated = await db
+        .update(portfolios)
+        .set({ downVotes: 0, upVotes: 0, url: portfolioUrl })
+        .where(eq(portfolios.userId, id));
+
+      return updated;
+    }),
   addPortfolio: protectedProcedure
     .input(z.object({ portfolioUrl: z.string().url() }))
     .mutation(async ({ ctx, input }) => {
@@ -19,27 +36,15 @@ export const portfolioRouter = createTRPCRouter({
         db,
       } = ctx;
       const { portfolioUrl } = input;
-      const foundPortfolio = await db
-        .select()
-        .from(portfolios)
-        .where(eq(portfolios.userId, id));
 
-      if (foundPortfolio.length === 0) {
-        const portfolio: InferInsertModel<typeof portfolios> = {
-          id: uuid(),
-          url: portfolioUrl,
-          userId: id,
-          downVotes: 0,
-          upVotes: 0,
-        };
-        return db.insert(portfolios).values(portfolio);
-      }
-      const updated = await db
-        .update(portfolios)
-        .set({ downVotes: 0, upVotes: 0, url: portfolioUrl })
-        .where(eq(portfolios.userId, id));
-
-      return updated;
+      const portfolio: InferInsertModel<typeof portfolios> = {
+        id: uuid(),
+        url: portfolioUrl,
+        userId: id,
+        downVotes: 0,
+        upVotes: 0,
+      };
+      return db.insert(portfolios).values(portfolio);
     }),
   getListing: publicProcedure.query(async ({ ctx: { db, session } }) => {
     // TODO: Implement lazy loading | infinite querying
