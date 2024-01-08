@@ -7,6 +7,8 @@ import { Card, CardHeader } from "./ui/card";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
+type VoteAction = "upvote" | "downvote";
+
 export const PortfolioListing = () => {
   //   const { data } = api.portfolio.getListing.useQuery();
 
@@ -46,6 +48,8 @@ export const PortfolioListing = () => {
   if (data?.length === 0) {
     return <h1 className="text-xl font-bold">No other listings found</h1>;
   }
+
+  // const performVoteAction = (action: VoteAction) => {};
 
   return (
     <div className="flex flex-col gap-y-4">
